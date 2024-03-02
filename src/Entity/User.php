@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
-class User
+// esta interfaz lo que va a permitir es que cuando creemos nuestro UserProvider
+// el framework sepa que esta clase User es la clase que representa a los usuarios en mi app.
+class User implements UserInterface
 {
     private string $id;
     private string $name;
@@ -76,6 +79,33 @@ class User
     public function markAsUpdated(): void
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    public function getRoles(): array
+    {
+        return [];
+    }
+
+    public function getSalt(): void
+    {
+        
+    }
+
+    public function getUsername(): string
+    {
+        // esto es porque nuestro UserProvider va ha hacer uso este mètodo que implementa la interfaz
+        // para obtener el campo porque queremos identificar al usuario.
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
+        
+    }
+
+    public function getUserIdentifier(): void
+    {
+        
     }
 
 }

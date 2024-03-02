@@ -16,7 +16,7 @@ class UserRepository extends BaseRepository
         return User::class;
     }
 
-    public function findPneByEmailOrFail(string $email): ?User
+    public function findOneByEmailOrFail(string $email): ?User
     {
         if (null === $user = $this->objectRepository->findOneBy(['email' => $email])) {
             throw new NotFoundHttpException(\sprintf('User %s not found', $email));
