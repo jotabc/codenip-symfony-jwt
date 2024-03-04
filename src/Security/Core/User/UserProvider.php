@@ -22,18 +22,18 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
         
     }
 
-    public function loadUserByIdentifier($identifier): void
-    {
-        
-    }
-
-    public function loadUserByUsername($username): UserInterface
+    public function loadUserByIdentifier($identifier): UserInterface
     {
         try {
-            return $this->userRepository->findOneByEmailOrFail($username);
+            return $this->userRepository->findOneByEmailOrFail($identifier);
         } catch(NotFoundHttpException $e) {
-            throw new UserNotFoundException(\sprintf('User with email %s not founf', $username));
+            throw new UserNotFoundException(\sprintf('User with email %s not found', $identifier));
         }
+    }
+
+    public function loadUserByUsername($username)
+    {
+        
     }
 
     public function refreshUser(UserInterface $user): UserInterface
@@ -52,7 +52,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
         $this->userRepository->save($user);
     }
 
-    public function supportsClass(string $class): void
+    public function supportsClass(string $class): string
     {
         return User::class;
     }
